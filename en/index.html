@@ -349,6 +349,10 @@ footer p{ margin:0 0 6px; max-width:80ch; }
 footer .rights{ color:var(--ink-2); font-weight:600; }
 .hero-top{ display:flex; justify-content:flex-end; gap:8px; margin:-32px 0 18px; }
 .hero-top a.btn{ display:inline-flex; align-items:center; text-decoration:none; }
+.btn-star{ gap:6px; }
+.btn-star svg{ width:15px; height:15px; fill:#E3B341; flex:none; }
+.btn-star .star-count{ padding-inline-start:7px; border-inline-start:1px solid var(--rule); font-variant-numeric:tabular-nums; }
+@media (max-width:400px){ .btn-star-label{ display:none; } }
 
 /* ---------- support (GitHub star) ---------- */
 .star-card{
@@ -443,7 +447,7 @@ html[lang="fa"] :is(.ccard-role, .ccard-debut){ font-family:var(--fa-ui); line-h
 <body>
 <div class="wm" aria-hidden="true"></div>
 <header class="hero wrap">
-  <div class="hero-top"><a class="btn" id="langSwitch" hidden></a><button class="btn" id="themeToggle" type="button"></button></div>
+  <div class="hero-top"><a class="btn btn-star" id="starTop" target="_blank" rel="noopener" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg><span class="btn-star-label" data-t="starShort"></span><span class="star-count" id="starTopCount" hidden></span></a><a class="btn" id="langSwitch" hidden></a><button class="btn" id="themeToggle" type="button"></button></div>
   <h1><span class="en"><bdi dir="ltr">Wuthering Waves</bdi></span><span class="sub" id="heroSub"></span></h1>
   <p class="hero-lede" id="heroLede"></p>
   <p class="byline"><span data-t="byline"></span> <b dir="ltr">Miyano</b></p>
@@ -616,7 +620,8 @@ window.WUWA = {
 "starHeading": "Liked this atlas?",
 "starText": "A star on GitHub is the quickest way to say so, and it helps other players find the site.",
 "starButton": "Star on GitHub",
-"starCount": "{n} stars"
+"starCount": "{n} stars",
+"starShort": "Star"
 },
 "arcs": [
 {
@@ -3779,11 +3784,16 @@ window.WUWA = {
   /* GitHub star button; the count comes from GitHub's public API and stays hidden if it can't be reached */
   if (D.meta.repo) {
     $('#starBtn').href = D.meta.repo;
+    const top = $('#starTop');
+    top.href = D.meta.repo; top.setAttribute('aria-label', U.starButton); top.title = U.starButton; top.hidden = false;
     fetch(D.meta.repoApi).then(r => r.ok ? r.json() : null).then(j => {
       if (!j || !(j.stargazers_count > 0)) return;              // no "0 stars" on a brand-new site
       const c = $('#starCount');
       c.textContent = tpl(U.starCount, {n:num(j.stargazers_count)});
       c.hidden = false;
+      const tc = $('#starTopCount');
+      tc.textContent = num(j.stargazers_count);
+      tc.hidden = false;
     }).catch(() => {});
   } else $('#support').hidden = true;
 
