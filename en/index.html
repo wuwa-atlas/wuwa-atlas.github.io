@@ -354,6 +354,55 @@ footer .rights{ color:var(--ink-2); font-weight:600; }
 .btn-star .star-count{ padding-inline-start:7px; border-inline-start:1px solid var(--rule); font-variant-numeric:tabular-nums; }
 @media (max-width:400px){ .btn-star-label{ display:none; } }
 
+/* ---------- phones: shorter page, quick jumps ---------- */
+.pmore, .fold-btn{ display:none; }
+.arc{ scroll-margin-top:72px; }
+@media (max-width:640px){
+  .pmore{ display:flex; justify-content:center; width:100%; min-height:44px; margin:18px 0 0; }
+  .patch:not(.open) .pbody{ display:none; }
+  .fold-btn{ display:inline-flex; min-height:44px; margin:0 0 10px; }
+  .fold:not(.open) > :not(.fold-btn){ display:none; }
+  .cast-grid{
+    grid-auto-flow:column; grid-template-columns:none; grid-auto-columns:calc((100% - 20px) / 3); gap:10px;
+    overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x proximity; padding-bottom:10px; scrollbar-width:thin;
+  }
+  .cast-grid > li{ scroll-snap-align:start; }
+}
+.toc-fab, .toc-sheet, .toc-backdrop{ display:none; }
+@media (max-width:999px){
+  .toc-fab{
+    display:inline-flex; align-items:center; gap:8px; position:fixed; z-index:70;
+    inset-inline-end:max(16px, env(safe-area-inset-right)); bottom:calc(16px + env(safe-area-inset-bottom));
+    min-height:48px; padding:0 18px; border-radius:24px; border:1px solid var(--rule); background:var(--raised); color:var(--ink);
+    box-shadow:0 6px 20px rgba(0,0,0,.2); font-family:var(--sans); font-weight:650; font-size:.9375rem; cursor:pointer;
+    opacity:0; transform:translateY(14px); pointer-events:none; transition:opacity .2s, transform .2s;
+  }
+  .toc-fab.show{ opacity:1; transform:none; pointer-events:auto; }
+  .toc-fab svg{ width:18px; height:18px; fill:currentColor; }
+  .toc-backdrop:not([hidden]){ display:block; position:fixed; inset:0; z-index:79; background:rgba(0,0,0,.45); }
+  .toc-sheet:not([hidden]){
+    display:block; position:fixed; z-index:80; left:0; right:0; bottom:0; max-height:82vh; overflow:auto; overscroll-behavior:contain;
+    background:var(--paper); border-radius:14px 14px 0 0; box-shadow:0 -10px 30px rgba(0,0,0,.25);
+    padding:16px max(var(--gutter), env(safe-area-inset-right)) calc(20px + env(safe-area-inset-bottom)) max(var(--gutter), env(safe-area-inset-left));
+  }
+}
+@media (prefers-reduced-motion: reduce){ .toc-fab{ transition:none; } }
+html[lang="fa"] :is(.toc-fab, .toc-head h2, .toc-link){ font-family:var(--fa-ui); letter-spacing:0; }
+.toc-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:6px; }
+.toc-head h2{ font-family:var(--sans); font-size:1.25rem; font-weight:750; margin:0; }
+.toc-link{
+  display:flex; justify-content:space-between; align-items:center; gap:10px; min-height:48px; padding:8px 2px;
+  border-bottom:1px solid var(--rule); color:var(--ink); text-decoration:none; font-family:var(--sans); font-weight:650;
+}
+.toc-link span{ color:var(--muted); font-weight:500; font-size:.8125rem; }
+.toc-chapter .toc-link{ color:var(--c); border-bottom:0; }
+.toc-vers{ display:flex; flex-wrap:wrap; gap:6px; padding:0 0 12px; border-bottom:1px solid var(--rule); }
+.toc-vers a{
+  display:inline-grid; place-items:center; min-width:46px; min-height:40px; padding:0 8px; border:1px solid var(--rule); border-radius:6px;
+  color:var(--ink); text-decoration:none; font-family:var(--fa-ui, var(--sans)); font-weight:600; font-size:.875rem;
+}
+html:not([lang="fa"]) .toc-vers a{ font-family:var(--sans); }
+
 /* ---------- support (GitHub star) ---------- */
 .star-card{
   display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:18px 24px;
@@ -397,7 +446,7 @@ body.following .patch:not(.match) .pbanner{ filter:grayscale(1); }
 .cast-group .subhead{ color:var(--c); margin-top:36px; }
 .cast-group:first-child .subhead{ margin-top:0; }
 .cast-grid{ list-style:none; margin:0; padding:0; display:grid; gap:18px 14px; grid-template-columns:repeat(auto-fill, minmax(116px, 1fr)); }
-@media (max-width:420px){ .cast-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px 10px; } }
+
 .ccard{ display:flex; flex-direction:column; gap:3px; width:100%; padding:0; border:0; background:none; color:var(--ink); text-align:start; cursor:pointer; font:inherit; }
 .ccard-img{ display:block; aspect-ratio:9/16; border-radius:4px; overflow:hidden; background:var(--paper-2); outline:2px solid transparent; outline-offset:2px; transition:outline-color .15s; }
 .ccard:hover .ccard-img, .ccard:focus-visible .ccard-img{ outline-color:var(--c); }
@@ -466,11 +515,11 @@ html[lang="fa"] :is(.ccard-role, .ccard-debut){ font-family:var(--fa-ui); line-h
     </div>
     <div class="primer-grid" id="primer"></div>
     <h3 class="subhead" data-t="deepTime"></h3>
-    <ol class="deep-time" id="deepTime"></ol>
+    <div class="fold"><ol class="deep-time" id="deepTime"></ol></div>
     <h3 class="subhead" data-t="sentinelsHeading"></h3>
-    <div class="sentinels" id="sentinels"></div>
+    <div class="fold"><div class="sentinels" id="sentinels"></div></div>
     <h3 class="subhead" data-t="factionsHeading"></h3>
-    <div class="factions" id="factions"></div>
+    <div class="fold"><div class="factions" id="factions"></div></div>
   </section>
 
   <section class="section wrap" id="cast" aria-labelledby="cast-h">
@@ -533,7 +582,7 @@ html[lang="fa"] :is(.ccard-role, .ccard-debut){ font-family:var(--fa-ui); line-h
       <h2 id="glossary-h" data-t="glossaryHeading"></h2>
       <p data-t="glossaryIntro"></p>
     </div>
-    <dl class="glossary" id="glossaryList"></dl>
+    <div class="fold"><dl class="glossary" id="glossaryList"></dl></div>
   </section>
 
   <section class="section wrap" id="sources-sec" aria-labelledby="sources-h">
@@ -541,10 +590,19 @@ html[lang="fa"] :is(.ccard-role, .ccard-debut){ font-family:var(--fa-ui); line-h
       <h2 id="sources-h" data-t="sourcesHeading"></h2>
       <p data-t="sourcesIntro"></p>
     </div>
-    <ol class="sources" id="sourceList"></ol>
+    <div class="fold"><ol class="sources" id="sourceList"></ol></div>
   </section>
 </main>
 <footer class="wrap" id="foot"></footer>
+<button class="toc-fab" id="tocBtn" type="button" aria-haspopup="dialog" aria-controls="tocSheet" aria-expanded="false">
+  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3.75A.75.75 0 012.75 3h10.5a.75.75 0 010 1.5H2.75A.75.75 0 012 3.75zm0 4.25a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H2.75A.75.75 0 012 8zm.75 3.5a.75.75 0 000 1.5h10.5a.75.75 0 000-1.5H2.75z"/></svg>
+  <span data-t="tocLabel"></span>
+</button>
+<div class="toc-backdrop" id="tocBackdrop" hidden></div>
+<div class="toc-sheet" id="tocSheet" role="dialog" aria-modal="true" aria-labelledby="tocTitle" hidden>
+  <div class="toc-head"><h2 id="tocTitle" data-t="tocLabel"></h2><button class="btn" id="tocClose" type="button" data-t="tocClose"></button></div>
+  <nav id="tocNav"></nav>
+</div>
 
 <script>
 window.WUWA_IMG = {"base": "../img/", "keys": {"char:Aalto": "1a4333ff2aa6647c.webp", "char:Abby": "e58ed7895318746c.webp", "char:Aemeath": "0eb73254190843be.webp", "char:Ahab": "13f7fcc943b4d88a.webp", "char:Aleph-1": "99dea3708e9d1c09.webp", "char:Augusta": "4456401def50f859.webp", "char:Avidius": "0a6ccf9b4db36ae4.webp", "char:Baizhi": "93938521c626b113.webp", "char:Balanophora": "7c75901284a00585.webp", "char:Brant": "ea809a8daa591ee6.webp", "char:Buling": "c4b520cfaa2e4b12.webp", "char:Camellya": "bd9900a7c3a9fbb7.webp", "char:Cantarella": "d9ced82a087ad0df.webp", "char:Carlotta": "87e401f9de976d4e.webp", "char:Cartethyia": "c9ffd96ea06dad6c.webp", "char:Cetus the Tidebreaker": "b2f23bd600d9ce0e.webp", "char:Changli": "7e6f3f012c2b9b3e.webp", "char:Chase": "672d7854281f26ff.webp", "char:Chimera": "e76046789e2f921e.webp", "char:Chisa": "2855351e14089152.webp", "char:Chixia": "eb631f9a622eda65.webp", "char:Ciaccona": "86b90c800f24f048.webp", "char:Cristoforo": "4ae98433f5a15c35.webp", "char:Denia": "bc430efa43ae2d24.webp", "char:Encore": "437353181f3d0640.webp", "char:Exostrider": "b40879aa3ee2fb66.webp", "char:Falco": "d7bdfe36b7044919.webp", "char:Fenrico": "ea52f1a7c754a501.webp", "char:Fleurdelys": "a0c6992d4970d77e.webp", "char:Geshu Lin": "074a8831063e77ca.webp", "char:Gyokuro": "4c6875b15162b294.webp", "char:Hecate": "df19528b50661314.webp", "char:Hiyuki": "019dc322f88cc15b.webp", "char:Hsin": "a37c69e3bdeaf4e8.webp", "char:Hsin the Moon Fox": "9f04ecb1451c4a06.webp", "char:Imperator": "d99250e3d9f8d9a8.webp", "char:Iuno": "121db96279d84a9b.webp", "char:Jianxin": "0374741356354eb2.webp", "char:Jingran": "a64e807e7a3cc141.webp", "char:Jingwei": "14ab68e86d404e7b.webp", "char:Jinhsi": "b4dd98be73fcbc0c.webp", "char:Jiyan": "a02d484621183916.webp", "char:Julia Silva": "11942f091a727c8c.webp", "char:Lady of the Sea": "03b8e4d0856cf441.webp", "char:Leviathan": "38ae2c3d087da632.webp", "char:Liangyu": "b97f9b5f5aefc0bf.webp", "char:Lillibet": "720e0cc2997fde62.webp", "char:Lingyang": "740b398a06b3e49a.webp", "char:Lucilla": "e0b409e7e8e81864.webp", "char:Lucy": "6bcf555b0e851e45.webp", "char:Lumi": "e82f7bfbb0e28f9f.webp", "char:Lupa": "4239a9ffc1dcb7fd.webp", "char:Luuk Herssen": "11c45696b337f9e2.webp", "char:Lynae": "1b7e9cccae96968a.webp", "char:Monica": "81cc6bdecf0bbfb5.webp", "char:Mornye": "56a13658ef425c72.webp", "char:Mortefi": "be2f2a6ab9748f05.webp", "char:Muyu": "551626852ada8f33.webp", "char:Mya": "2340d01335fb2262.webp", "char:Namipon": "ff90e66d54221b65.webp", "char:Phoebe": "4da17b8fd3e28cd4.webp", "char:Phrolova": "8b937c386eceb2ee.webp", "char:Polmes": "397b33dffd953aa1.webp", "char:Qingxiao": "1d81f27b2e3347ca.webp", "char:Qiuyuan": "5b7e9132b3565ce5.webp", "char:Rebecca": "f540795fcfe76b13.webp", "char:Roccia": "6d45b5cd0eb78f64.webp", "char:Rover": "5d87c6bf8087529a.webp", "char:Sanhua": "0ba0131bdfa53c4c.webp", "char:Scar": "52e92b72a4132046.webp", "char:Shorekeeper": "15ffc5384d6d0af6.webp", "char:Sigrika": "97d10c01d5f07014.webp", "char:Strange White Cat": "8776d8c87dc383fa.webp", "char:Suhsin": "27ae8aaf1a5d9dcd.webp", "char:Suisui": "90ac1574825caff0.webp", "char:Sumika": "135ccf2d06696a87.webp", "char:Suoming": "255e8425877da440.webp", "char:Talos": "c8ada92c5ee1d7ce.webp", "char:Tangning": "509f070c20dbf872.webp", "char:Taoqi": "500c667f748e60fe.webp", "char:The False Sovereign": "5946217e5983c742.webp", "char:The Shaper": "45abc7109ee1ccef.webp", "char:Triss": "083322fbac4406ee.webp", "char:Tuntun": "c413f4d5cdbfaba9.webp", "char:Uncle Dong": "365f6839a61bf0f2.webp", "char:Verina": "09b3d3ee41ec8591.webp", "char:Warren": "b9507f8562811dad.webp", "char:Xiangli Yao": "f3fd2dbdb7519416.webp", "char:Xinyi": "fb3846cc03490772.webp", "char:Xuanqing": "620a2b6f9c8508d4.webp", "char:Yangyang": "215412dd31679c0a.webp", "char:Yinlin": "f8dd69d3eee66bb4.webp", "char:Yngvar": "dd94d0a96c82e96d.webp", "char:Youhu": "fbe803b7fdc97fad.webp", "char:Zani": "7d191480a09f0cb0.webp", "char:Zhezhi": "a917c57edfa6ca0a.webp", "ver:1.0": "3bf89d2014ff401f.webp", "ver:1.1": "47ddf225f6f3c494.webp", "ver:1.2": "9aa738ed4cfa1e4d.webp", "ver:1.3": "34c51b7850bd8946.webp", "ver:1.4": "ca9bc0a11b3ed83d.webp", "ver:2.0": "9ae695ec7d4d27ec.webp", "ver:2.1": "ce308d646baaacb4.webp", "ver:2.2": "745d6a8f921b66b2.webp", "ver:2.3": "72f83a6181fd9944.webp", "ver:2.4": "bc787f744f2d42cc.webp", "ver:2.5": "db7c29287e9340ca.webp", "ver:2.6": "fc3bce81d520d174.webp", "ver:2.7": "4575f2c7b3e1694a.webp", "ver:2.8": "7b3a2dc27f65b6bf.webp", "ver:3.0": "c12b8834f28ea3b6.webp", "ver:3.1": "3d451068edab1877.webp", "ver:3.2": "795c3b01c0748d5f.webp", "ver:3.3": "973850246ca23243.webp", "ver:3.4": "bce6cfa53a71dfbd.webp", "ver:3.5": "9cd47893a44b6d8f.webp", "ver:3.6": "6b151f7538afd6dd.webp", "arc:hl": "24b44b5077e49ba1.webp", "arc:rn": "48515e358e398153.webp", "arc:lr": "a57ef416745101da.webp", "arc:xf": "210250919fc0f3b8.webp", "char:Ju\u00e9": "74f64807c55dfa0f.webp", "char:Grand Architect": "844d137e3ba98ab3.webp", "ver:3.7": "2ea02ff757eb7e81.webp"}, "card": ["Aalto", "Abby", "Aemeath", "Augusta", "Baizhi", "Brant", "Buling", "Camellya", "Cantarella", "Carlotta", "Cartethyia", "Changli", "Chisa", "Chixia", "Ciaccona", "Denia", "Encore", "Hiyuki", "Hsin", "Iuno", "Jianxin", "Jingran", "Jinhsi", "Jiyan", "Lingyang", "Lucilla", "Lucy", "Lumi", "Lupa", "Luuk Herssen", "Lynae", "Mornye", "Mortefi", "Phoebe", "Phrolova", "Qingxiao", "Qiuyuan", "Rebecca", "Roccia", "Sanhua", "Shorekeeper", "Sigrika", "Suisui", "Suoming", "Taoqi", "Verina", "Xiangli Yao", "Yangyang", "Yinlin", "Youhu", "Zani", "Zhezhi"]};
@@ -621,7 +679,14 @@ window.WUWA = {
 "starText": "A star on GitHub is the quickest way to say so, and it helps other players find the site.",
 "starButton": "Star on GitHub",
 "starCount": "{n} stars",
-"starShort": "Star"
+"starShort": "Star",
+"tocLabel": "Contents",
+"tocTop": "Back to top",
+"tocClose": "Close",
+"readVersion": "Read this version",
+"hideVersion": "Show less",
+"showAll": "Show all ({n})",
+"showLess": "Show less"
 },
 "arcs": [
 {
@@ -3672,6 +3737,7 @@ window.WUWA = {
       html += '<p class="pmeta"><span' + (alt ? ' title="' + esc(alt) + '"' : '') + '>' + esc(fmt(p.start)) + (p.end ? esc(U.dateTo) + esc(fmt(p.end)) : '') + '</span>' + (p.region ? '<span>' + tx(p.region) + '</span>' : '') + live + '</p></div></header>';
       if (imgUrl('ver:' + p.v)) html += '<figure class="pbanner">' + pic('ver:' + p.v, tpl(U.altKeyArt, {v:num(p.v), title:p.title})) + '</figure>';
       html += '<p class="logline">' + tx(p.logline) + '</p>';
+      html += '<button type="button" class="btn pmore" aria-expanded="false">' + esc(U.readVersion) + '</button><div class="pbody">';
       if (p.introduced && p.introduced.length) {
         html += '<div class="cast"><h4>' + esc(U.newFaces) + '</h4><ul>' + p.introduced.map(c => '<li><button type="button" class="chip" data-name="' + esc(c.key || c.name) + '" title="' + esc(tpl(U.followName, {name:c.key || c.name})) + '">' + avatar(c.key || c.name) + '<span class="chip-t">' + en(c.name) + '<small>' + tx(c.role) + '</small></span></button></li>').join('') + '</ul></div>';
       }
@@ -3682,7 +3748,7 @@ window.WUWA = {
       if (p.side && p.side.length) html += '<div class="block side"><h4>' + esc(U.alongside) + '</h4><ul>' + p.side.map(s => '<li><b>' + en(s.name) + (FA ? ':' : '.') + '</b> ' + tx(s.text) + '</li>').join('') + '</ul></div>';
       if (p.leaves) html += '<aside class="leaves"><h4>' + esc(U.leaves) + '</h4><p>' + tx(p.leaves) + '</p></aside>';
       if (p.note) html += '<p class="note">' + tx(p.note) + '</p>';
-      html += '</article>';
+      html += '</div></article>';
     });
     html += '</section>';
   });
@@ -3716,6 +3782,7 @@ window.WUWA = {
   ex.addEventListener('click', () => {
     const open = ex.getAttribute('aria-pressed') !== 'true';
     document.querySelectorAll('.quest').forEach(d => d.open = open);
+    document.querySelectorAll('.patch').forEach(a => setPatchOpen(a, open));
     ex.setAttribute('aria-pressed', open);
     ex.textContent = open ? U.closeAll : U.openAll;
   });
@@ -3781,6 +3848,43 @@ window.WUWA = {
     (first || $('#story')).scrollIntoView();
   });
 
+  /* phones: each version opens on demand */
+  const setPatchOpen = (art, open) => {
+    art.classList.toggle('open', open);
+    const b = art.querySelector('.pmore');
+    if (b) { b.setAttribute('aria-expanded', open); b.textContent = open ? U.hideVersion : U.readVersion; }
+  };
+  stream.addEventListener('click', e => {
+    const b = e.target.closest('.pmore'); if (!b) return;
+    const art = b.closest('.patch'), open = !art.classList.contains('open');
+    setPatchOpen(art, open);
+    if (!open) art.scrollIntoView({block:'start'});
+  });
+
+  /* contents sheet: one tap to any section, chapter or version (phones and tablets) */
+  const tocBtn = $('#tocBtn'), sheet = $('#tocSheet'), backdrop = $('#tocBackdrop');
+  const link = (id, label, extra) => '<a class="toc-link" href="#' + id + '">' + label + (extra ? '<span>' + extra + '</span>' : '') + '</a>';
+  $('#tocNav').innerHTML =
+    link('top', esc(U.tocTop)) + link('world', esc(U.worldHeading)) + link('cast', esc(U.castHeading)) +
+    arcs.map(a => '<div class="toc-chapter" style="--c:var(--' + a.color + ')">' + link('arc-' + a.id, en(a.name), tx(a.range)) +
+      '<div class="toc-vers">' + patches.filter(p => p.arc === a.id).map(p => '<a href="#' + slug(p.v) + '">' + esc(num(p.v)) + '</a>').join('') + '</div></div>').join('') +
+    link('threads', esc(U.threadsHeading)) + link('glossary', esc(U.glossaryHeading)) + link('sources-sec', esc(U.sourcesHeading));
+  const openToc = () => { sheet.hidden = backdrop.hidden = false; tocBtn.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; $('#tocClose').focus(); };
+  const closeToc = () => { sheet.hidden = backdrop.hidden = true; tocBtn.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; };
+  tocBtn.addEventListener('click', openToc);
+  $('#tocClose').addEventListener('click', () => { closeToc(); tocBtn.focus(); });
+  backdrop.addEventListener('click', closeToc);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !sheet.hidden) { closeToc(); tocBtn.focus(); } });
+  $('#tocNav').addEventListener('click', e => {
+    const a = e.target.closest('a'); if (!a) return;
+    e.preventDefault(); closeToc();
+    const id = a.getAttribute('href').slice(1);
+    if (id === 'top') { scrollTo(0, 0); return; }
+    const el = document.getElementById(id);
+    if (el) { el.scrollIntoView({block:'start'}); history.replaceState(null, '', '#' + id); }
+  });
+  addEventListener('scroll', () => { tocBtn.classList.toggle('show', scrollY > 600); }, {passive:true});
+
   /* GitHub star button; the count comes from GitHub's public API and stays hidden if it can't be reached */
   if (D.meta.repo) {
     $('#starBtn').href = D.meta.repo;
@@ -3802,6 +3906,15 @@ window.WUWA = {
   $('#glossaryList').innerHTML = D.lore.glossary.map(g => '<div><dt>' + en(g.term) + (g.term_fa ? '<span class="tfa">' + tx(g.term_fa) + '</span>' : '') + '</dt><dd>' + tx(g.text) + '</dd></div>').join('');
   $('#sourceList').innerHTML = D.sources.map(s => '<li><a href="' + esc(s.url) + '" rel="noopener" target="_blank">' + en(s.label) + '</a></li>').join('');
   $('#foot').innerHTML = '<p class="rights">' + tx(U.rights) + '</p><p>' + tx(U.imgCredit) + '</p><p>' + tx(D.meta.footer) + '</p>';
+
+  /* phones: long reference lists open on demand (runs last, so every list is already filled) */
+  document.querySelectorAll('.fold').forEach(f => {
+    const list = f.firstElementChild, b = document.createElement('button');
+    b.type = 'button'; b.className = 'btn fold-btn';
+    const label = () => { const o = f.classList.contains('open'); b.textContent = o ? U.showLess : tpl(U.showAll, {n:num(list.children.length)}); b.setAttribute('aria-expanded', o); };
+    b.addEventListener('click', () => { f.classList.toggle('open'); label(); });
+    label(); f.prepend(b);
+  });
 
   if (location.hash) { const t = document.getElementById(location.hash.slice(1)); if (t) setTimeout(() => t.scrollIntoView(), 50); }
 })();
