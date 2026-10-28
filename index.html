@@ -350,6 +350,29 @@ footer .rights{ color:var(--ink-2); font-weight:600; }
 .hero-top{ display:flex; justify-content:flex-end; gap:8px; margin:-32px 0 18px; }
 .hero-top a.btn{ display:inline-flex; align-items:center; text-decoration:none; }
 
+/* ---------- support (GitHub star) ---------- */
+.star-card{
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:18px 24px;
+  max-width:880px; padding:24px 26px; background:var(--raised); border:1px solid var(--rule); border-radius:8px;
+}
+.gh-mark{ width:40px; height:40px; fill:var(--ink); }
+.star-copy h2{ font-family:var(--sans); font-weight:750; font-size:1.375rem; letter-spacing:-.01em; margin:0 0 4px; }
+.star-copy p{ margin:0; color:var(--ink-2); max-width:56ch; }
+html[lang="fa"] .star-copy h2{ font-family:var(--fa-ui); font-weight:800; letter-spacing:0; }
+.star-btn{
+  display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:10px 18px; border-radius:6px;
+  background:var(--ink); color:var(--paper); font-family:var(--sans); font-weight:650; font-size:.9375rem;
+  text-decoration:none; white-space:nowrap;
+}
+html[lang="fa"] .star-btn{ font-family:var(--fa-ui); }
+.star-btn svg{ width:18px; height:18px; fill:#E3B341; flex:none; }
+.star-btn:hover{ opacity:.9; }
+.star-count{ padding-inline-start:10px; border-inline-start:1px solid color-mix(in srgb, var(--paper) 35%, transparent); font-variant-numeric:tabular-nums; }
+@media (max-width:640px){
+  .star-card{ grid-template-columns:auto minmax(0,1fr); padding:20px; }
+  .star-btn{ grid-column:1 / -1; justify-content:center; }
+}
+
 /* ---------- artwork ---------- */
 img{ max-width:100%; }
 .arc-art, .pbanner{ margin:0; overflow:hidden; border-radius:4px; background:var(--paper-2); }
@@ -486,6 +509,21 @@ html[lang="fa"] :is(.ccard-role, .ccard-debut){ font-family:var(--fa-ui); line-h
     <div class="mysteries" id="mysteries"></div>
   </section>
 
+  <section class="section wrap" id="support" aria-labelledby="support-h">
+    <div class="star-card">
+      <svg class="gh-mark" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      <div class="star-copy">
+        <h2 id="support-h" data-t="starHeading"></h2>
+        <p data-t="starText"></p>
+      </div>
+      <a class="star-btn" id="starBtn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+        <span data-t="starButton"></span>
+        <span class="star-count" id="starCount" hidden></span>
+      </a>
+    </div>
+  </section>
+
   <section class="section wrap" id="glossary" aria-labelledby="glossary-h">
     <div class="section-head">
       <h2 id="glossary-h" data-t="glossaryHeading"></h2>
@@ -519,6 +557,8 @@ window.WUWA = {
 "subtitle": "کل داستان تا امروز، نسخه به نسخه",
 "lede": "از مسافری بی‌نام که در حاشیهٔ Jinzhou بیدار می‌شود تا مرگ پنهان Sentinel شهر Mengzhou. همهٔ پرده‌های داستان اصلی از نسخهٔ ۱٫۰ تا ۳٫۷، تاریخ کهن Solaris-3 در پس آن‌ها، و پرسش‌هایی که بازی هنوز پاسخشان را نداده است. این صفحه داستان را تا پایان نسخهٔ ۳٫۷ کامل لو می‌دهد.",
 "footer": "این صفحه مرجعی غیررسمی و ساختهٔ طرفداران است که در ۲۷ اکتبر ۲۰۲۶ گردآوری شده و نسخه‌های ۱٫۰ تا ۳٫۷ را در بر می‌گیرد. Wuthering Waves ساخته و منتشرشدهٔ Kuro Games است و همهٔ نام‌ها و شخصیت‌ها به صاحبانشان تعلق دارند. خلاصه‌های داستانی بازنویسی آزادِ مأموریت‌های بازی و منابع جامعهٔ بازیکنان است.",
+"repo": "https://github.com/wuwa-atlas/wuwa-atlas.github.io",
+"repoApi": "https://api.github.com/repos/wuwa-atlas/wuwa-atlas.github.io",
 "alt": {
 "href": "en/",
 "lang": "en",
@@ -572,7 +612,11 @@ window.WUWA = {
 "altKeyArt": "تصویر رسمی نسخهٔ {v}، {title}",
 "altRegion": "تصویر رسمی منطقهٔ {name}",
 "imgCredit": "تصاویر شخصیت‌ها، مناطق و نسخه‌ها © Kuro Games است و از ویکی Fandom بازی Wuthering Waves برای ارجاع آورده شده است.",
-"otherLang": "English"
+"otherLang": "English",
+"starHeading": "از این اطلس خوشتان آمد؟",
+"starText": "با دادن یک ستاره در گیت‌هاب از این کار حمایت کنید؛ این ستاره‌ها به بازیکنان دیگر هم کمک می‌کند سایت را پیدا کنند.",
+"starButton": "ستاره دادن در GitHub",
+"starCount": "{n} ستاره"
 },
 "arcs": [
 {
@@ -3757,6 +3801,17 @@ window.WUWA = {
     const first = document.querySelector('.patch.match');
     (first || $('#story')).scrollIntoView();
   });
+
+  /* GitHub star button; the count comes from GitHub's public API and stays hidden if it can't be reached */
+  if (D.meta.repo) {
+    $('#starBtn').href = D.meta.repo;
+    fetch(D.meta.repoApi).then(r => r.ok ? r.json() : null).then(j => {
+      if (!j || !(j.stargazers_count > 0)) return;              // no "0 stars" on a brand-new site
+      const c = $('#starCount');
+      c.textContent = tpl(U.starCount, {n:num(j.stargazers_count)});
+      c.hidden = false;
+    }).catch(() => {});
+  } else $('#support').hidden = true;
 
   /* mysteries, glossary, sources, footer */
   $('#mysteries').innerHTML = D.lore.mysteries.map(m => '<article class="mystery"><h3>' + tx(m.q) + '</h3><p>' + tx(m.text) + '</p>' + (m.since ? '<div class="since">' + tx(m.since) + '</div>' : '') + '</article>').join('');
